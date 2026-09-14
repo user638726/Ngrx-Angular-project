@@ -5,6 +5,7 @@
   More info on how to modify the Conduit SASS styles can be found at
   https://github.com/GoThinkster/conduit-sass
 */
+@import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
 .logo-font {
   font-family: "Titillium Web", sans-serif; }
 

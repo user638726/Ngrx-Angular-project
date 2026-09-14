@@ -5,13 +5,13 @@ import { Store } from '@ngrx/store';
 import { authActions } from '../../store/action';
 import { RegisterRequestInterface } from '../../types/registerRequest.interface';
 import { selectIsSubmitting, selectValidationErrors } from '../../store/reducers';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { AuthService } from '../../services/auth-service.service';
 import { combineLatest } from 'rxjs';
 import { BackendErrorMessages } from '../../../shared/components/backend-error-messages/backend-error-messages';
 
 @Component({
-  imports: [RouterLink,ReactiveFormsModule,CommonModule,BackendErrorMessages],
+  imports: [RouterLink,ReactiveFormsModule,AsyncPipe,BackendErrorMessages],
   selector: 'app-register',
   styleUrl: './register.css',
   templateUrl: './register.html',
