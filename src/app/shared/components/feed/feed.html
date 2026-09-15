@@ -1,0 +1,54 @@
+@if (data$ | async; as data) {
+
+@if (data.isLoading) {
+<app-loading></app-loading>
+}
+@if(data.error){
+  <app-error-message [message]="data.error"></app-error-message>
+}
+
+@if (data.feed) {
+
+@for (article of data.feed.articles; track article.slug) {
+
+<div class="article-preview">
+
+  <div class="article-meta">
+    <a [routerLink]="['/profiles', article.author.username]">
+      <img [src]="article.author.image" />
+    </a>
+
+    <div class="info">
+      <a [routerLink]="['/profiles', article.author.username]">
+        {{ article.author.username }}
+      </a>
+
+      <span class="date">
+        {{ article.createdAt }}
+      </span>
+    </div>
+
+    <div class="pull-xs-right">
+      ADD TO Favorites
+    </div>
+  </div>
+
+  <a [routerLink]="['/articles', article.slug]" class="preview-link">
+    <h1>{{ article.title }}</h1>
+
+    <p>{{ article.description }}</p>
+
+    <span>Read more...</span>
+
+    <app-tag-list [tags]="article.tagList"></app-tag-list>
+  </a>
+
+</div>
+
+}
+
+<app-pagination [total]="data.feed.articlesCount" [limit]="limit" [url]="baseUrl" [currentPage]="currentPage()"></app-pagination>
+
+}
+
+}
