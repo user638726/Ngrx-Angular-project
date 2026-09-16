@@ -1,0 +1,4 @@
+@if(data$ |async;as data){
+<app-article-form [initialValues]="initialValues" [isSubmitting]="data.isSubmmitting" [errors]="data.backendErrors" (articleSubmit)="onSubmit($event)"></app-article-form>
+}
+

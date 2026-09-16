@@ -20,5 +20,17 @@ export const routes: Routes = [
   {
     path:'tags/:slug',
     loadChildren:()=>import('./tagFeed/tagFeed.routes').then((m)=>m.routes),
+  },
+  {
+    path:'articles/new',
+    loadChildren:()=>import('./createArticle/createArticle.routes').then((m)=>m.routes),
+  },
+  {
+    path:'articles/:slug',
+    loadChildren:()=>import('./article/article.routes').then((m)=>m.routes),
+  },
+  {
+    path:'articles/:slug/edit',
+    loadChildren:()=>import('./editArticle/editArticle.routes').then((m)=>m.routes),
   }
 ];
