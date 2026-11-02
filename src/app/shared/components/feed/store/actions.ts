@@ -7,5 +7,7 @@ export const feedActions = createActionGroup({
     'Get Feed':props<{url:string}>(),
     'Get Feed success':props<{feed:GetFeedResponseInterface}>(),
     'Get Feed failure':emptyProps(),
+
+    'Remove article':props<{slug:string}>(),
   }
 })

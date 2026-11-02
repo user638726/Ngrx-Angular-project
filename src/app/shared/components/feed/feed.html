@@ -29,7 +29,8 @@
     </div>
 
     <div class="pull-xs-right">
-      ADD TO Favorites
+      <app-add-to-favorites [isFavorited]="article.favorited" [articleSlug]="article.slug" [favoritesCount]="article.favoritesCount"
+        (isFavoritedChange)="onFavoritedChange(article.slug,$event)"></app-add-to-favorites>
     </div>
   </div>
 

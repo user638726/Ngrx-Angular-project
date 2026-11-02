@@ -11,15 +11,18 @@ import { environment } from '../../../../environments/environment';
 import { Pagination } from '../pagination/pagination';
 import queryString from 'query-string'
 import { TagList } from '../tag-list/tag-list';
+import { AddToFavorites } from '../add-to-favorites/add-to-favorites';
 
 @Component({
-  imports: [AsyncPipe, RouterLink, ErrorMessage, Loading,Pagination,TagList],
+  imports: [AsyncPipe, RouterLink, ErrorMessage, Loading,Pagination,TagList,AddToFavorites],
   selector: 'app-feed',
   styleUrl: './feed.css',
   templateUrl: './feed.html',
 })
 export class Feed implements OnInit,OnChanges{
 apiUrl = input<string>('');
+// true on the current user's own "Favorites Posts": an unfavorited article no longer belongs in the list
+removeUnfavorited = input<boolean>(false);
 private store=inject(Store)
 private router = inject(Router);
 private route = inject(ActivatedRoute)
@@ -43,10 +46,16 @@ ngOnInit(): void {
   })
 }
 ngOnChanges(changes: SimpleChanges): void {
+  const apiUrlChange = changes['apiUrl']
   const isApiUrlChanged =
-  !changes['apiUrl'].firstChange && changes['apiUrl'].currentValue!== changes['apiUrl'].previousValue
+  apiUrlChange && !apiUrlChange.firstChange && apiUrlChange.currentValue!== apiUrlChange.previousValue
   if(isApiUrlChanged){
     this.fetchFeed()
+  }
+}
+onFavoritedChange(slug:string,isFavorited:boolean):void{
+  if(this.removeUnfavorited() && !isFavorited){
+    this.store.dispatch(feedActions.removeArticle({slug}))
   }
 }
 fetchFeed():void{

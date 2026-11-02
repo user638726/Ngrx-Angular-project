@@ -6,13 +6,16 @@ import { combineLatest, filter, map } from 'rxjs';
 import { selectArticleData, selectError, selectIsLoading } from '../../store/reducers';
 import { selectCurrentUser } from '../../../auth/store/reducers';
 import { CurrentUserInterface } from '../../../shared/types/currentUser.interface';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { Loading } from '../../../shared/components/loading/loading';
 import { ErrorMessage } from '../../../shared/components/error-message/error-message';
 import { TagList } from '../../../shared/components/tag-list/tag-list';
+import { FollowUser } from '../../../shared/components/follow-user/follow-user';
+import { AddToFavorites } from '../../../shared/components/add-to-favorites/add-to-favorites';
+import { Comments } from '../comments/comments';
 
 @Component({
-  imports: [AsyncPipe, RouterLink, Loading, ErrorMessage, TagList],
+  imports: [AsyncPipe, NgTemplateOutlet, RouterLink, Loading, ErrorMessage, TagList, FollowUser, AddToFavorites, Comments],
   selector: 'app-article',
   styleUrl: './article.css',
   templateUrl: './article.html',

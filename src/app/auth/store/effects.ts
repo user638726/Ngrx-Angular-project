@@ -95,3 +95,44 @@ return actions$.pipe(
 )
 },{functional:true,dispatch:false})
 
+export const updateCurrentUserEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    authService = inject(AuthService),
+    router =inject(Router)
+  ) => {
+    return actions$.pipe(
+      ofType(authActions.updateCurrentUser),
+
+      switchMap(({currentUserRequest}) => {
+        return authService.updateCurrentUser(currentUserRequest).pipe(
+          map((currentUser: CurrentUserInterface) => {
+            return authActions.updateCurrentUserSuccess({ currentUser });
+          }),
+          tap(()=>{
+
+           router.navigateByUrl('/')
+          }),
+
+          catchError((errorResponse:HttpErrorResponse) => {
+            return of(authActions.updateCurrentUserFailure({errors:errorResponse.error.errors}));
+          })
+        );
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const logoutEffect = createEffect( (
+    actions$ = inject(Actions),
+    router = inject(Router),
+    persistanceService = inject(PersistanceService)
+  ) =>{
+    return actions$.pipe(ofType(authActions.logout),
+  tap(()=>{
+    persistanceService.set('accessToken','')
+    router.navigateByUrl('/')
+  }))
+
+  },{functional:true,dispatch:false})

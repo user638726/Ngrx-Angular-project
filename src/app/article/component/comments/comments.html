@@ -1,0 +1,49 @@
+@if(data$ | async; as data){
+  @if(data.currentUser){
+    <form class="card comment-form" [formGroup]="form" (ngSubmit)="submit()">
+      @if(data.validationErrors){
+        <app-backend-error-messages [backendErrors]="data.validationErrors"></app-backend-error-messages>
+      }
+      <div class="card-block">
+        <textarea class="form-control" placeholder="Write a comment..." rows="3" formControlName="body"></textarea>
+      </div>
+      <div class="card-footer">
+        <img [src]="data.currentUser.image" class="comment-author-img" />
+        <button type="submit" class="btn btn-sm btn-primary" [disabled]="data.isSubmitting">
+          Post Comment
+        </button>
+      </div>
+    </form>
+  } @else if(data.currentUser === null){
+    <p>
+      <a routerLink="/login">Sign in</a> or <a routerLink="/register">sign up</a> to add comments on this article.
+    </p>
+  }
+
+  @if(data.isLoading){
+    <app-loading></app-loading>
+  }
+
+  @for(comment of data.comments; track comment.id){
+    <div class="card">
+      <div class="card-block">
+        <p class="card-text">{{ comment.body }}</p>
+      </div>
+      <div class="card-footer">
+        <a [routerLink]="['/profiles',comment.author.username]" class="comment-author">
+          <img [src]="comment.author.image" class="comment-author-img" />
+        </a>
+        &nbsp;
+        <a [routerLink]="['/profiles',comment.author.username]" class="comment-author">
+          {{ comment.author.username }}
+        </a>
+        <span class="date-posted">{{ comment.createdAt }}</span>
+        @if(data.currentUser?.username === comment.author.username){
+          <span class="mod-options">
+            <i class="ion-trash-a" (click)="deleteComment(comment.id)"></i>
+          </span>
+        }
+      </div>
+    </div>
+  }
+}
